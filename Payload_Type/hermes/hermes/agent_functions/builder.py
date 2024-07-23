@@ -92,7 +92,7 @@ class Hermes(PayloadType):
                     use_ssl = "true"
                 data = data.replace("REPLACE_USE_SSL", use_ssl)
             if key == "killdate":
-                data = data.replace("2099-01-01", value)
+                data = data.replace("2099-01-01", val)
 
         for key, val in c2.get_parameters_dict().items():
             if key == "AESPSK":
