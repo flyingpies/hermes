@@ -19,13 +19,35 @@ class SocksArguments(TaskArguments):
             ),
         ]
 
+    async def parse_dictionary(self, dictionary_arguments):
+        self.load_args_from_dictionary(dictionary_arguments)
+
     async def parse_arguments(self):
-        pass
+        if len(self.command_line) == 0:
+            raise Exception("Must be passed \"start\" or \"stop\" commands on the command line.")
+        try:
+            self.load_args_from_json_string(self.command_line)
+        except:
+            parts = self.command_line.lower().split()
+            action = parts[0]
+            if action not in self.valid_actions:
+                raise Exception("Invalid action \"{}\" given. Require one of: {}".format(action, ", ".join(self.valid_actions)))
+            self.add_arg("action", action)
+            if action == "start":
+                port = -1
+                if len(parts) < 2:
+                    port = 7005
+                else:
+                    try:
+                        port = int(parts[1])
+                    except Exception as e:
+                        raise Exception("Invalid port number given: {}. Must be int.".format(parts[1]))
+                self.add_arg("port", port, ParameterType.Number)
 
 class SocksCommand(CommandBase):
     cmd = "socks"
     needs_admin = False
-    help_cmd = "socks <port>"
+    help_cmd = "socks <action> <port>"
     description = "start or stop socks."
     version = 1
     author = "@alalith"
@@ -41,23 +63,40 @@ class SocksCommand(CommandBase):
             TaskID=taskData.Task.ID,
             Success=True,
         )
-        resp = await SendMythicRPCProxyStartCommand(MythicRPCProxyStartMessage(
-            TaskID=taskData.Task.ID,
-            PortType="socks",
-            LocalPort=taskData.args.get_arg("port")
-        ))
-
-        if not resp.Success:
-            response.TaskStatus = MythicStatus.Error
-            response.Stderr = resp.Error
-            await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
+        if taskData.args.get_arg("action") == "start":
+            resp = await SendMythicRPCProxyStartCommand(MythicRPCProxyStartMessage(
                 TaskID=taskData.Task.ID,
-                Response=resp.Error.encode()
+                PortType="socks",
+                LocalPort=taskData.args.get_arg("port")
             ))
+
+            if not resp.Success:
+                response.TaskStatus = MythicStatus.Error
+                response.Stderr = resp.Error
+                await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
+                    TaskID=taskData.Task.ID,
+                    Response=resp.Error.encode()
+                ))
+            else:
+                response.DisplayParams = "Started SOCKS5 server on port {}".format(taskData.args.get_arg("port"))
+                response.TaskStatus = MythicStatus.Success
         else:
-            response.DisplayParams = "Started SOCKS5 server on port {}".format(taskData.args.get_arg("port"))
-            response.TaskStatus = MythicStatus.Success
-            response.Completed = True
+            resp = await SendMythicRPCProxyStopCommand(MythicRPCProxyStopMessage(
+                TaskID=taskData.Task.ID,
+                PortType="socks",
+                LocalPort=taskData.args.get_arg("port")
+            ))
+            if not resp.Success:
+                response.TaskStatus = MythicStatus.Error
+                response.Stderr = resp.Error
+                await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
+                    TaskID=taskData.Task.ID,
+                    Response=resp.Error.encode()
+                ))
+            else:
+                response.DisplayParams = "Stopped SOCKS5 server on port {}".format(taskData.args.get_arg("port"))
+                response.TaskStatus = MythicStatus.Success
+                response.Completed = True
         return response
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
