@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1250"
-   version = "1.3">
+   LastUpgradeVersion = "1430"
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3FD50FF826547BED00DCD9F8"
-               BuildableName = "Hermes-HTTP"
-               BlueprintName = "Hermes-HTTP"
+               BlueprintIdentifier = "F7E6E92B2B7D302900D03011"
+               BuildableName = "Hermes-Slack"
+               BlueprintName = "Hermes-Slack"
                ReferencedContainer = "container:Hermes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,9 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-      </Testables>
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -39,24 +38,18 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      viewDebuggingEnabled = "No">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3FD50FF826547BED00DCD9F8"
-            BuildableName = "Hermes-HTTP"
-            BlueprintName = "Hermes-HTTP"
+            BlueprintIdentifier = "F7E6E92B2B7D302900D03011"
+            BuildableName = "Hermes-Slack"
+            BlueprintName = "Hermes-Slack"
             ReferencedContainer = "container:Hermes.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "OS_ACTIVITY_MODE"
-            value = "disable"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -68,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3FD50FF826547BED00DCD9F8"
-            BuildableName = "Hermes-HTTP"
-            BlueprintName = "Hermes-HTTP"
+            BlueprintIdentifier = "F7E6E92B2B7D302900D03011"
+            BuildableName = "Hermes-Slack"
+            BlueprintName = "Hermes-Slack"
             ReferencedContainer = "container:Hermes.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
